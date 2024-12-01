@@ -18,4 +18,10 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
 /**
  * The cleaner shorthand for printing output.
  */
-fun Any?.println() = println(this)
+fun <T> T.println() = this.also { println(this) }
+
+fun <T> List<T>.toPair() = this[0] to this[1]
+
+fun <T, R> Pair<T, T>.map(f: (T) -> R) = f(first) to f(second)
+
+fun List<String>.toPairOfLists(regex: Regex) = map { line -> line.split(regex).toPair() }.unzip()

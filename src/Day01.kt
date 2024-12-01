@@ -1,21 +1,26 @@
+import kotlin.math.abs
+import kotlin.time.measureTimedValue
+
 fun main() {
+    val day = "Day01"
+
     fun part1(input: List<String>): Int {
-        return input.size
+        return input.toPairOfLists(Regex("\\s+")).map { it.sorted() }.run {
+            (first zip second).sumOf { abs(it.first.toInt() - it.second.toInt()) }
+        }
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        return input.toPairOfLists(Regex("\\s+"))
+            .run { this.first.sumOf { l -> l.toInt() * this.second.count { r -> l == r } } }
     }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
+    val testInput = readInput(day + "_test")
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    val input = readInput(day)
 
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    measureTimedValue { part1(testInput) }.run { "Test 1 solved in $duration with result: $value, expected: 11" }.println()
+    measureTimedValue { part2(testInput) }.run { "Test 2 solved in $duration with result: $value, expected: 31" }.println()
+    measureTimedValue { part1(input) }.run { "Part 1 solved in $duration with result: $value" }.println()
+    measureTimedValue { part2(input) }.run { "Part 2 solved in $duration with result: $value" }.println()
 }
