@@ -24,6 +24,6 @@ fun <T> List<T>.toPair() = this[0] to this[1]
 
 fun <T, R> Pair<T, T>.map(f: (T) -> R) = f(first) to f(second)
 
-fun List<String>.toPairOfLists(regex: Regex = Regex("\\s+")) = map { it.split(regex).toPair() }.unzip()
+fun <T> List<List<T>>.toPairOfLists() = map { it.toPair() }.unzip()
 
 fun List<String>.toIntLists(regex: Regex = Regex("\\s+")) = map { it.split(regex).map(String::toInt) }

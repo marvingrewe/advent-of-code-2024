@@ -4,19 +4,14 @@ import kotlin.time.measureTimedValue
 fun main() {
     val day = "Day01"
 
-    fun part1(input: List<String>): Int {
-        return input.toPairOfLists(Regex("\\s+")).map { it.sorted() }.run {
-            (first zip second).sumOf { abs(it.first.toInt() - it.second.toInt()) }
-        }
+    fun part1(input: List<String>): Int = input.toIntLists().toPairOfLists().map { it.sorted() }.run {
+        (first zip second).sumOf { abs(it.first - it.second) }
     }
 
-    fun part2(input: List<String>): Int {
-        return input.toPairOfLists(Regex("\\s+"))
-            .run { this.first.sumOf { l -> l.toInt() * this.second.count { r -> l == r } } }
-    }
+    fun part2(input: List<String>): Int =
+        input.toIntLists().toPairOfLists().run { this.first.sumOf { l -> l * this.second.count { r -> l == r } } }
 
     val testInput = readInput(day + "_test")
-
     val input = readInput(day)
 
     measureTimedValue { part1(testInput) }.run { "Test 1 solved in $duration with result: $value, expected: 11" }.println()

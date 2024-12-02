@@ -12,7 +12,6 @@ fun main() {
     }
 
     val testInput = readInput(day + "_test")
-
     val input = readInput(day)
 
     measureTimedValue { part1(testInput) }.run { "Test 1 solved in $duration with result: $value, expected: " }.println()
