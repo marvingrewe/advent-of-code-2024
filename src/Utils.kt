@@ -27,3 +27,32 @@ fun <T, R> Pair<T, T>.map(f: (T) -> R) = f(first) to f(second)
 fun <T> List<List<T>>.toPairOfLists() = map { it.toPair() }.unzip()
 
 fun List<String>.toIntLists(regex: Regex = Regex("\\s+")) = map { it.split(regex).map(String::toInt) }
+fun Iterable<String>.toIntLists(regex: Regex = Regex("\\s+")) = map { it.split(regex).map(String::toInt) }
+
+fun List<String>.isInBounds(row: Int, col: Int): Boolean = row in this.indices && col in this[row].indices
+
+inline fun <T> Array<T>.indexOfPrevious(startIndex: Int, predicate: (T) -> Boolean): Int {
+    for (index in startIndex downTo 0) {
+        if (predicate(this[index]))
+            return index
+    }
+    return -1
+}
+
+fun <T> List<T>.elementPairs(): Sequence<Pair<T, T>> = sequence {
+    for (i in 0..<lastIndex) {
+        for (j in i + 1..lastIndex) {
+            yield(this@elementPairs[i] to this@elementPairs[j])
+        }
+    }
+}
+
+val integers = generateSequence(0) {it + 1}
+
+typealias Point = Pair<Int, Int>
+
+operator fun Point.plus(other: Point) = this.first + other.first to this.second + other.second
+
+operator fun Point.minus(other: Point) = this.first - other.first to this.second - other.second
+
+operator fun Point.times(scalar: Int) = this.first * scalar to this.second * scalar
